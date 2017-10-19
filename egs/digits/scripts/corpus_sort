@@ -1,0 +1,11 @@
+#!/bin/bash
+
+rm corpus.txt
+touch corpus.txt
+
+declare -a arr=( "one" "two" "three" "four" "five" "six" "seven" "eight" "nine" "zero" )
+
+for i in "${arr[@]}"
+do
+	echo $i >> corpus.txt
+done

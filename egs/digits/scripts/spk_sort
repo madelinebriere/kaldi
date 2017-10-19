@@ -1,0 +1,19 @@
+#!/bin/bash
+
+rm utt2spk
+touch utt2spk
+
+declare -a arr=("jackson" "theo" "nicolas")
+
+for i in {0..49}
+do
+	for j in {0..9}
+	do
+		for k in "${arr[@]}"	
+		do
+			utterance="${j}_${k}_${i}"	
+			echo "$utterance $k" >> utt2spk
+
+		done
+	done
+done
