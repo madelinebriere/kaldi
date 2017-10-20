@@ -14,8 +14,8 @@ do
 		for k in "${arr[@]}"	
 		do
 			end=".wav"
-			utterance="${j}_${k}_${i}"	
-			path="/home/$user/kaldi/egs/digits/digits_audio/train/"
+			utterance="${k}_${j}_${i}"	
+			path="/home/$user/kaldi/egs/digits/digits_audio/test/"
 			file="$path${k}/$utterance$end"
 			echo "$utterance $file" >> wav.scp
  

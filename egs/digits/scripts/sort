@@ -17,7 +17,7 @@ do
 		do
 			end=".wav"
 			file="${j}_${k}_${i}${end}"	
-			mv $file $k/$file
+			mv $file $k/${k}_${j}_${i}${end}
 		done
 	done
 done

@@ -11,7 +11,7 @@ do
 	do
 		for k in "${arr[@]}"	
 		do
-			utterance="${j}_${k}_${i}"	
+			utterance="${k}_${j}_${i}"	
 			echo "$utterance $k" >> utt2spk
 
 		done

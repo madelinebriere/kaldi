@@ -1,11 +1,9 @@
 #!/bin/bash
-
 . ./path.sh || exit 1
 . ./cmd.sh || exit 1
-
-nj=1       # number of parallel jobs - 1 is perfect for such a small data set
+nj=1 # number of parallel jobs - 1 is perfect for such a small data set
 lm_order=1 # language model order (n-gram quantity) - 1 is enough for digits grammar
- 
+
 # Safety mechanism (possible running this script with modified arguments)
 . utils/parse_options.sh || exit 1
 [[ $# -ge 1 ]] && { echo "Wrong arguments!"; exit 1; }
@@ -29,11 +27,10 @@ echo
 utils/utt2spk_to_spk2utt.pl data/train/utt2spk > data/train/spk2utt
 utils/utt2spk_to_spk2utt.pl data/test/utt2spk > data/test/spk2utt
 
-
 echo
 echo "===== FEATURES EXTRACTION ====="
 echo
-   
+
 # Making feats.scp files
 mfccdir=mfcc
 # Uncomment and modify arguments in scripts below if you have any problems with data sorting
@@ -44,7 +41,7 @@ steps/make_mfcc.sh --nj $nj --cmd "$train_cmd" data/test exp/make_mfcc/test $mfc
 
 # Making cmvn.scp files
 steps/compute_cmvn_stats.sh data/train exp/make_mfcc/train $mfccdir
-teps/compute_cmvn_stats.sh data/test exp/make_mfcc/test $mfccdir
+steps/compute_cmvn_stats.sh data/test exp/make_mfcc/test $mfccdir
 
 echo
 echo "===== PREPARING LANGUAGE DATA ====="
@@ -58,7 +55,7 @@ echo
 # optional_silence.txt  [<phone>]
 
 # Preparing language data
- utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang
+utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang
 
 echo
 echo "===== LANGUAGE MODEL CREATION ====="
@@ -81,13 +78,13 @@ if [ -z $loc ]; then
 		exit 1
 	 fi
 fi
-	
+
 local=data/local
 mkdir $local/tmp
 ngram-count -order $lm_order -write-vocab $local/tmp/vocab-full.txt -wbdiscount -text $local/corpus.txt -lm $local/tmp/lm.arpa
 
- echo
- echo "===== MAKING G.fst ====="
+echo
+echo "===== MAKING G.fst ====="
 echo
 
 lang=data/lang
@@ -115,7 +112,7 @@ steps/align_si.sh --nj $nj --cmd "$train_cmd" data/train data/lang exp/mono exp/
 echo
 echo "===== TRI1 (first triphone pass) TRAINING ====="
 echo
-  
+
 steps/train_deltas.sh --cmd "$train_cmd" 2000 11000 data/train data/lang exp/mono_ali exp/tri1 || exit 1
 
 echo
@@ -124,7 +121,7 @@ echo
 
 utils/mkgraph.sh data/lang exp/tri1 exp/tri1/graph || exit 1
 steps/decode.sh --config conf/decode.config --nj $nj --cmd "$decode_cmd" exp/tri1/graph data/test exp/tri1/decode
- 
+
 echo
 echo "===== run.sh script is finished ====="
 echo
