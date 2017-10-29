@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -f "srilm.tgz" ] 
+then
+	echo "SRILM"
+else
+	echo "NO"
+fi
