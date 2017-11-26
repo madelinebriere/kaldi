@@ -48,9 +48,10 @@ selected=${DATA_ROOT}/selected
 
 # Select a subset of the data to use
 # WARNING: the destination directory will be deleted if it already exists!
-local/voxforge_select.sh --dialect $dialects \
-  ${DATA_ROOT}/extracted ${selected} || exit 1
-
+# ******** Commented out and done manually
+# local/voxforge_select.sh --dialect $dialects ${DATA_ROOT}/extracted ${selected} || exit 1
+export selected="/srv/homedir2/selected"
+echo ${selected}
 # Mapping the anonymous speakers to unique IDs
 local/voxforge_map_anonymous.sh ${selected} || exit 1
 
